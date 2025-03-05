@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from "./Button.svelte";
     /*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
     
@@ -7,24 +8,20 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
     */
 
+	import LabeledContainer from "./LabeledContainer.svelte";
 
 </script>
 
-<header class="container">
-    <span class="logo">Bruicolis</span>
-</header>
+<div class="container">
+    <h1>Create a tag</h1>
+    <LabeledContainer label="Name">
+        <input type="text" />
+    </LabeledContainer>
+    <Button variant="secondary" label="Create" />
+</div>
 
 <style>
     .container {
-        width: 100%;
-        background-color: var(--secondary-900);
-        flex: 0 0 auto;
-    }
-
-    .logo {
-        display: inline-block;
-        font-size: 2rem;
-        font-weight: 700;
-        padding: 0.25em 0.5em;
+        padding: 1rem;
     }
 </style>

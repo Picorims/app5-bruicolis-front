@@ -28,9 +28,9 @@
     }
 </script>
 
-<div class="container">
+<main class="container">
 	{@render sceneSnippet(scene)}
-</div>
+</main>
 
 {#snippet sceneSnippet(scene: Scene)}
     {@const SceneComponent = scenes[scene]}
