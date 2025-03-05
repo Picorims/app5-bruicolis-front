@@ -1,0 +1,90 @@
+/*
+Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
+
+/* https://www.realtimecolors.com/?colors=e5ebef-09141a-18f08f-375a6c-3298f9&fonts=Aleo-Aleo */
+
+@import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap');
+
+:global(body) {
+    --text: #e5ebef;
+    --background: #09141a;
+    --primary: #18f08f;
+    --secondary: #375a6c;
+    --accent: #3298f9;
+
+    --text-50: #eff3f5;
+    --text-100: #dfe7ec;
+    --text-200: #c0ced8;
+    --text-300: #a0b6c5;
+    --text-400: #819eb1;
+    --text-500: #61869e;
+    --text-600: #4e6b7e;
+    --text-700: #3a505f;
+    --text-800: #27353f;
+    --text-900: #131b20;
+    --text-950: #0a0d10;
+
+    --background-50: #ecf4f8;
+    --background-100: #d9e9f2;
+    --background-200: #b3d3e5;
+    --background-300: #8dbed8;
+    --background-400: #67a8cb;
+    --background-500: #4192be;
+    --background-600: #347598;
+    --background-700: #275872;
+    --background-800: #1a3a4c;
+    --background-900: #0d1d26;
+    --background-950: #070f13;
+
+    --primary-50: #e7fdf3;
+    --primary-100: #cffce8;
+    --primary-200: #9ff9d0;
+    --primary-300: #6ff6b9;
+    --primary-400: #3ff3a2;
+    --primary-500: #0ff08b;
+    --primary-600: #0cc06f;
+    --primary-700: #099053;
+    --primary-800: #066037;
+    --primary-900: #03301c;
+    --primary-950: #02180e;
+
+    --secondary-50: #eef4f6;
+    --secondary-100: #dde8ee;
+    --secondary-200: #bbd2dd;
+    --secondary-300: #99bbcc;
+    --secondary-400: #77a4bb;
+    --secondary-500: #558eaa;
+    --secondary-600: #447188;
+    --secondary-700: #335566;
+    --secondary-800: #223944;
+    --secondary-900: #111c22;
+    --secondary-950: #090e11;
+
+    --accent-50: #e6f3fe;
+    --accent-100: #cee6fd;
+    --accent-200: #9ccefc;
+    --accent-300: #6bb5fa;
+    --accent-400: #399cf9;
+    --accent-500: #0883f7;
+    --accent-600: #0669c6;
+    --accent-700: #054f94;
+    --accent-800: #033563;
+    --accent-900: #021a31;
+    --accent-950: #010d19;
+
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 1.2rem;
+    font-family: 'Aleo', Georgia, 'Times New Roman', Times, serif;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
