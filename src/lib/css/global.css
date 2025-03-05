@@ -6,41 +6,42 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
-/* https://www.realtimecolors.com/?colors=e5ebef-09141a-18f08f-375a6c-3298f9&fonts=Aleo-Aleo */
+/* v1: https://www.realtimecolors.com/?colors=e5ebef-09141a-18f08f-375a6c-3298f9&fonts=Aleo-Aleo */
+/* v2: https://www.realtimecolors.com/?colors=e8f8e7-0c0e0c-18f08f-237e73-3298f9&fonts=Aleo-Aleo */
 
 @import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap');
 
 :global(body) {
-    --text: #e5ebef;
-    --background: #09141a;
+    --text: #e8f8e7;
+    --background: #0c0e0c;
     --primary: #18f08f;
-    --secondary: #375a6c;
+    --secondary: #237e73;
     --accent: #3298f9;
-
-    --text-50: #eff3f5;
-    --text-100: #dfe7ec;
-    --text-200: #c0ced8;
-    --text-300: #a0b6c5;
-    --text-400: #819eb1;
-    --text-500: #61869e;
-    --text-600: #4e6b7e;
-    --text-700: #3a505f;
-    --text-800: #27353f;
-    --text-900: #131b20;
-    --text-950: #0a0d10;
-
-    --background-50: #ecf4f8;
-    --background-100: #d9e9f2;
-    --background-200: #b3d3e5;
-    --background-300: #8dbed8;
-    --background-400: #67a8cb;
-    --background-500: #4192be;
-    --background-600: #347598;
-    --background-700: #275872;
-    --background-800: #1a3a4c;
-    --background-900: #0d1d26;
-    --background-950: #070f13;
-
+    
+    --text-50: #ecf9eb;
+    --text-100: #d9f4d7;
+    --text-200: #b4e8b0;
+    --text-300: #8edd88;
+    --text-400: #68d161;
+    --text-500: #43c639;
+    --text-600: #359e2e;
+    --text-700: #287722;
+    --text-800: #1b4f17;
+    --text-900: #0d280b;
+    --text-950: #071406;
+    
+    --background-50: #f1f3f1;
+    --background-100: #e3e8e3;
+    --background-200: #c8d0c8;
+    --background-300: #acb9ac;
+    --background-400: #91a191;
+    --background-500: #758a75;
+    --background-600: #5e6e5e;
+    --background-700: #465346;
+    --background-800: #2f372f;
+    --background-900: #171c17;
+    --background-950: #0c0e0c;
+    
     --primary-50: #e7fdf3;
     --primary-100: #cffce8;
     --primary-200: #9ff9d0;
@@ -52,19 +53,19 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     --primary-800: #066037;
     --primary-900: #03301c;
     --primary-950: #02180e;
-
-    --secondary-50: #eef4f6;
-    --secondary-100: #dde8ee;
-    --secondary-200: #bbd2dd;
-    --secondary-300: #99bbcc;
-    --secondary-400: #77a4bb;
-    --secondary-500: #558eaa;
-    --secondary-600: #447188;
-    --secondary-700: #335566;
-    --secondary-800: #223944;
-    --secondary-900: #111c22;
-    --secondary-950: #090e11;
-
+    
+    --secondary-50: #ebfaf8;
+    --secondary-100: #d7f4f1;
+    --secondary-200: #afe9e2;
+    --secondary-300: #87ded4;
+    --secondary-400: #5fd3c6;
+    --secondary-500: #37c8b7;
+    --secondary-600: #2ca093;
+    --secondary-700: #21786e;
+    --secondary-800: #165049;
+    --secondary-900: #0b2825;
+    --secondary-950: #051412;
+    
     --accent-50: #e6f3fe;
     --accent-100: #cee6fd;
     --accent-200: #9ccefc;
@@ -76,7 +77,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     --accent-800: #033563;
     --accent-900: #021a31;
     --accent-950: #010d19;
-
+    
+    
     background-color: var(--background);
     color: var(--text);
     font-size: 1.2rem;
@@ -85,6 +87,12 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+:global(*) {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
