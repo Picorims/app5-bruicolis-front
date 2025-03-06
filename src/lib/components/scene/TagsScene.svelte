@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
 	/*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
     
@@ -10,6 +9,9 @@
 
 	import Button from '../Button.svelte';
 	import CreateTag from '../CreateTag.svelte';
+    import { localTags } from '$lib/user_data.svelte';
+	import Tag from '../Tag.svelte';
+
     type View = "createTag" | "browseContent";
     let view: View = $state("createTag");
     function navTo(v: View) {
@@ -21,7 +23,12 @@
 <div class="container">
     <aside>
         <Button variant="primary" label="Create a tag" onclick={() => navTo("createTag")} />
-            <div class="list"></div>
+            <div class="list">
+                <h2>Local tags</h2>
+                {#each localTags.value as tag}
+                    <Tag tag={tag} />
+                {/each}
+            </div>
     </aside>
     <div class="main">
         {#if view === "createTag"}
@@ -46,6 +53,11 @@
         padding: 1rem;
         margin-top: 1rem;
     }
+    .list > h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5em;
+    }
+
     .main {
         flex: 1 1 auto;
         width: 100%;
