@@ -20,10 +20,13 @@
 
 	let { tag, mode, noMargin, limitSize, size, onclick }: Props = $props();
     const MAX_LENGTH = 10;
-    let text = tag.name;
-    if (limitSize && text.length > MAX_LENGTH) {
-        text = text.slice(0, MAX_LENGTH) + '...';
-    }
+    let text = $derived(() => {
+        let t = tag.name;
+        if (limitSize && text.length > MAX_LENGTH) {
+            t = t.slice(0, MAX_LENGTH) + '...';
+        }
+        return t;
+    });
 </script>
 
 <div
@@ -35,7 +38,7 @@
 	role={onclick === undefined ? 'none' : 'button'}
 	{onclick}
 >
-	{text}
+	{text()}
 </div>
 
 <style>
