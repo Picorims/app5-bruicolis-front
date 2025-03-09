@@ -12,10 +12,11 @@
     import { localTags } from '$lib/user_data.svelte';
 	import Tag from '../Tag.svelte';
 
-    type View = "createTag" | "browseContent";
-    let view: View = $state("createTag");
+    type View = "none" | "createTag" | "browseContent";
+    let view = $state<View>("none");
     function navTo(v: View) {
-        view === v;
+        console.log("Navigating to", v);
+        view = v;
     }
 </script>
 
@@ -33,6 +34,11 @@
     <div class="main">
         {#if view === "createTag"}
             <CreateTag />
+        {:else if view === "browseContent"}
+            <h1>Browse content</h1>
+        {:else if view === "none"}
+            <h1>Tags</h1>
+            <p>Pick a tag on the left or create a tag to get started.</p>
         {/if}
     </div>
 </div>
