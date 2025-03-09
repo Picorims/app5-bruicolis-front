@@ -55,12 +55,19 @@
 
 <style>
 	.container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
 		display: flex;
 	}
 
 	aside {
 		width: max(200px, 20vw);
+        height: 100%;
+        overflow: hidden;
 		flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
 	}
 
 	.list {
@@ -68,6 +75,8 @@
 		border-radius: 4px;
 		padding: 1rem;
 		margin-top: 1rem;
+        flex: 1 1 auto;
+        overflow-y: auto;
 	}
 	.list > h2 {
 		font-size: 1.3rem;

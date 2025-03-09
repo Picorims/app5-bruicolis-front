@@ -40,6 +40,8 @@
 <style>
 	.container {
 		flex: 1 1 auto;
-		padding: 2em;
+		min-width: 0px;
+		overflow: hidden;
+		padding: 1em 2em;
 	}
 </style>
