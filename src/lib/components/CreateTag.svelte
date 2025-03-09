@@ -38,7 +38,7 @@
         <input type="color" bind:value={inputColorValue} />
     </LabeledContainer>
     <LabeledContainer label="Preview">
-        <Tag tag={{ name: inputNameValue, color: inputColorValue, localId: "", type: "local" }} />    
+        <Tag mode="display" tag={{ name: inputNameValue, color: inputColorValue, localId: "", type: "local" }} />    
     </LabeledContainer>
     <Button variant="secondary" label="Create" onclick={createTag} />
 </div>

@@ -9,64 +9,74 @@
 
 	import Button from '../Button.svelte';
 	import CreateTag from '../CreateTag.svelte';
-    import { localTags } from '$lib/user_data.svelte';
+	import { localTags } from '$lib/user_data.svelte';
 	import Tag from '../Tag.svelte';
+	import { type Tag as TagType } from '$lib/user_data.svelte';
 
-    type View = "none" | "createTag" | "browseContent";
-    let view = $state<View>("none");
-    function navTo(v: View) {
-        console.log("Navigating to", v);
-        view = v;
-    }
+	type View = 'none' | 'createTag' | 'browseContent';
+	let view = $state<View>('none');
+	function navTo(v: View) {
+		console.log('Navigating to', v);
+		view = v;
+	}
+	let selectedTag = $state<TagType['localId'] | null>(null);
+	$inspect(selectedTag);
 </script>
 
-
 <div class="container">
-    <aside>
-        <Button variant="primary" label="Create a tag" onclick={() => navTo("createTag")} />
-            <div class="list">
-                <h2>Local tags</h2>
-                {#each localTags.value as tag}
-                    <Tag tag={tag} />
-                {/each}
-            </div>
-    </aside>
-    <div class="main">
-        {#if view === "createTag"}
-            <CreateTag />
-        {:else if view === "browseContent"}
-            <h1>Browse content</h1>
-        {:else if view === "none"}
-            <h1>Tags</h1>
-            <p>Pick a tag on the left or create a tag to get started.</p>
-        {/if}
-    </div>
+	<aside>
+		<Button variant="primary" label="Create a tag" onclick={() => navTo('createTag')} />
+		<div class="list">
+			<h2>Local tags</h2>
+			{#each localTags.value as tag}
+				<Tag
+					mode="display"
+					{tag}
+					onclick={() => {
+						navTo('browseContent');
+						selectedTag = tag.localId;
+					}}
+				/>
+			{/each}
+		</div>
+	</aside>
+	<div class="main">
+		{#if view === 'createTag'}
+			<CreateTag />
+		{:else if view === 'browseContent'}
+			<h1>Browse content</h1>
+			<p>Content for tag {selectedTag} goes here.</p>
+		{:else if view === 'none'}
+			<h1>Tags</h1>
+			<p>Pick a tag on the left or create a tag to get started.</p>
+		{/if}
+	</div>
 </div>
 
 <style>
-    .container {
-        display: flex;
-    }
+	.container {
+		display: flex;
+	}
 
-    aside {
-        width: max(200px, 20vw);
-        flex: 0 0 auto;
-    }
-    
-    .list {
-        background-color: var(--secondary-800);
-        border-radius: 4px;
-        padding: 1rem;
-        margin-top: 1rem;
-    }
-    .list > h2 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5em;
-    }
+	aside {
+		width: max(200px, 20vw);
+		flex: 0 0 auto;
+	}
 
-    .main {
-        flex: 1 1 auto;
-        width: 100%;
-        margin-left: 2rem;
-    }
+	.list {
+		background-color: var(--secondary-800);
+		border-radius: 4px;
+		padding: 1rem;
+		margin-top: 1rem;
+	}
+	.list > h2 {
+		font-size: 1.3rem;
+		margin-bottom: 0.5em;
+	}
+
+	.main {
+		flex: 1 1 auto;
+		width: 100%;
+		margin-left: 2rem;
+	}
 </style>
