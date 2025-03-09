@@ -12,29 +12,53 @@
 	interface Props {
 		tag: TagType;
 		mode: 'display' | 'edit';
+        noMargin?: boolean;
+        limitSize?: boolean;
+        size: 'small' | 'medium';
 		onclick?: () => void;
 	}
 
-	let { tag, mode, onclick }: Props = $props();
+	let { tag, mode, noMargin, limitSize, size, onclick }: Props = $props();
+    const MAX_LENGTH = 10;
+    let text = tag.name;
+    if (limitSize && text.length > MAX_LENGTH) {
+        text = text.slice(0, MAX_LENGTH) + '...';
+    }
 </script>
 
 <div
 	class="tag"
-	style="background-color: color-mix(in srgb, {tag.color}, black 50%); border-color: {tag.color}; cursor: {onclick === undefined ? 'default' : 'pointer'}"
+    class:small={size === 'small'}
+    class:medium={size === 'medium'}
+    class:noMargin={noMargin}
+	style="border-color: {tag.color}; cursor: {onclick === undefined ? 'default' : 'pointer'}"
 	role={onclick === undefined ? 'none' : 'button'}
 	{onclick}
 >
-	{tag.name}
+	{text}
 </div>
 
 <style>
 	.tag {
 		font-size: 1rem;
+        font-weight: 900;
+        text-shadow: 0 0 2px black;
 		display: inline-block;
-		padding: 0.25em;
-		margin-right: 0.25em;
-		margin-bottom: 0.25em;
+		padding: 0.25em 0.5em;
+		margin-right: 0.75em;
+		margin-bottom: 0.75em;
 		border-radius: 4px;
-		border: 1px solid;
+		border-bottom: 2px solid;
+        background-color: var(--secondary-900);
+        color: var(--secondary-400);
 	}
+
+    .tag.noMargin {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+    .tag.small {
+        font-size: 0.9rem;
+        /* padding: 0.1em 0.25em; */
+    }
 </style>

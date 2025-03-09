@@ -20,13 +20,15 @@
 <div role="list" class="list">
 	{#each tracks as track}
 		<div class="list-item" role="listitem">
-			<span class="title">{track.title}</span>
-			<span class="artist">{track.artists.join(', ')}</span>
+            <div class="meta">
+                <span class="title">{track.title}</span>
+                <span class="artist">{track.artists.join(', ')}</span>
+            </div>
 			<div class="tags">
 				{#each track.tags as t}
 					{@const tag = tagByLocalId(t).value}
 					{#if tag !== undefined}
-						<Tag mode="display" {tag} />
+						<Tag mode="display" size="small" noMargin limitSize {tag} />
 					{/if}
 				{/each}
 			</div>
@@ -45,35 +47,40 @@
 	.list-item {
 		width: 100%;
 		overflow: hidden;
+        margin-bottom: 0.5em;
 		padding: 0.25em;
 		font-size: 1rem;
+        border-radius: 4px;
 
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;
-		justify-content: flex-start;
+		justify-content: space-between;
 		gap: 0 1em;
 
 		transition: background-color 0.1s;
 		cursor: pointer;
-	}
-	.list-item > * {
-		flex: 0 1 auto;
-		min-width: 150px;
+
+        background-color: var(--secondary-950);
 	}
 
-	.list-item:nth-child(odd) {
-		background-color: var(--secondary-950);
-	}
-	.list-item:nth-child(even) {
-		background-color: var(--secondary-900);
-	}
 	.list-item:hover {
-		background-color: var(--secondary-700);
+		background-color: var(--secondary-800);
 	}
+    .list-item > * {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
 
+    .meta {
+        padding: 0.25em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 	.title,
 	.artist {
+        width: 100%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -85,9 +92,10 @@
 	}
 
 	.tags {
-		flex: 1 1 auto;
+        max-width: 420px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-end;
+        gap: 0.75em;
 	}
 </style>
