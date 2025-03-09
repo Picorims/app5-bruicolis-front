@@ -51,7 +51,9 @@ export function computed<T>(fn: () => T) {
     return { get value() { return value; } };
 }
 
-export const localTags= computed(() => userData.tags.filter(tag => tag.type === 'local').sort((a, b) => a.name.localeCompare(b.name)));
+export const localTags = computed(() => userData.tags.filter(tag => tag.type === 'local').sort((a, b) => a.name.localeCompare(b.name)));
+export const tracksByTag = (tagId: Tag["localId"]) => computed(() => userData.tracks.filter(track => track.tags.includes(tagId)));
+export const tagByLocalId = (localId: Tag["localId"]) => computed<Tag | undefined>(() => userData.tags.find(tag => tag.type === 'local' && tag.localId === localId));
 
 export function localTagExists(name: string): boolean {
     return userData.tags.some(tag => tag.type === "local" && tag.name === name);

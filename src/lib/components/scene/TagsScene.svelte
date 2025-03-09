@@ -9,9 +9,10 @@
 
 	import Button from '../Button.svelte';
 	import CreateTag from '../CreateTag.svelte';
-	import { localTags } from '$lib/user_data.svelte';
+	import { localTags, tracksByTag } from '$lib/user_data.svelte';
 	import Tag from '../Tag.svelte';
 	import { type Tag as TagType } from '$lib/user_data.svelte';
+	import TrackList from '../TrackList.svelte';
 
 	type View = 'none' | 'createTag' | 'browseContent';
 	let view = $state<View>('none');
@@ -20,6 +21,7 @@
 		view = v;
 	}
 	let selectedTag = $state<TagType['localId'] | null>(null);
+    let browseContentTitle = $state<string | null>(null);
 	$inspect(selectedTag);
 </script>
 
@@ -33,8 +35,9 @@
 					mode="display"
 					{tag}
 					onclick={() => {
-						navTo('browseContent');
+                        browseContentTitle = tag.name;
 						selectedTag = tag.localId;
+						navTo('browseContent');
 					}}
 				/>
 			{/each}
@@ -44,8 +47,14 @@
 		{#if view === 'createTag'}
 			<CreateTag />
 		{:else if view === 'browseContent'}
-			<h1>Browse content</h1>
-			<p>Content for tag {selectedTag} goes here.</p>
+			<h1>{browseContentTitle}</h1>
+            {#if selectedTag !== null}
+                {@const tracks = tracksByTag(selectedTag).value}
+                <p>{tracks.length} tracks</p>
+                <div class="track-list-container">
+                    <TrackList tracks={tracks} />
+                </div>
+            {/if}
 		{:else if view === 'none'}
 			<h1>Tags</h1>
 			<p>Pick a tag on the left or create a tag to get started.</p>
@@ -85,7 +94,15 @@
 
 	.main {
 		flex: 1 1 auto;
-		width: 100%;
+        min-width: 0;
 		margin-left: 2rem;
+
+        display: flex;
+        flex-direction: column;
 	}
+    .main > *:not(h1):not(p) {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+    }
 </style>
