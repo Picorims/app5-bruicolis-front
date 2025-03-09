@@ -11,7 +11,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 @import url('https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&display=swap');
 
-:global(body) {
+body {
     --text: #e8f8e7;
     --background: #0c0e0c;
     --primary: #18f08f;
@@ -91,8 +91,23 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     padding: 0;
 }
 
-:global(*) {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Aleo', Georgia, 'Times New Roman', Times, serif;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--secondary-900);
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    color: var(--text);
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }

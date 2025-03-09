@@ -34,7 +34,7 @@
     });
 </script>
 
-<div class="container">
+<nav class="container">
 	<NavItem title="Home" Icon={House} focused={focused === 'home'} onclick={() => navTo('home')}
 	></NavItem>
 	<NavItem
@@ -51,7 +51,7 @@
 		focused={focused === 'about'}
 		onclick={() => navTo('about')}
 	></NavItem>
-</div>
+</nav>
 
 <style>
 	.container {

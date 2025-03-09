@@ -10,9 +10,9 @@
 
 </script>
 
-<div class="container">
+<header class="container">
     <span class="logo">Bruicolis</span>
-</div>
+</header>
 
 <style>
     .container {
