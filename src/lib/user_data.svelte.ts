@@ -6,20 +6,40 @@ License, v. 2.0. If a copy of the MPL was not distributed with this
 file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
+import typia from "typia";
+
 export interface LocalTag {
 	type: 'local';
 	localId: string;
 	name: string;
 	color: string;
 }
+
 export type Tag = LocalTag;
+
+export interface Track {
+    localId: string;
+    title: string;
+    artists: string[];
+    tags: Tag["localId"][];
+}
+
 export interface UserData {
 	tags: Tag[];
+    tracks: Track[];
 }
 
 const userData: UserData = $state({
-	tags: []
+	tags: [],
+    tracks: []
 });
+
+export function importUserData(data: string) {
+    const jsonData = typia.json.assertParse<UserData>(data);
+    userData.tags = jsonData.tags;
+    userData.tracks = jsonData.tracks;
+    console.log("Imported user data");
+}
 
 /**
  * @see https://github.com/sveltejs/svelte/discussions/15019
@@ -29,7 +49,7 @@ const userData: UserData = $state({
 export function computed<T>(fn: () => T) {
     const value = $derived.by(fn);
     return { get value() { return value; } };
-  }
+}
 
 export const localTags= computed(() => userData.tags.filter(tag => tag.type === 'local').sort((a, b) => a.name.localeCompare(b.name)));
 
