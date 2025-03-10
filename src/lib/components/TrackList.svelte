@@ -9,6 +9,7 @@
 	import Button from './Button.svelte';
 	import Tag from './Tag.svelte';
 	import Dialog from './Dialog.svelte';
+	import TrackTagEditor from './TrackTagEditor.svelte';
 
 	/*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
@@ -29,7 +30,7 @@
 		track: Track | null;
 	}
 	let editTagState = $state<TagState>({
-		active: true,
+		active: false,
 		track: null
 	});
 
@@ -57,7 +58,6 @@
 					{@const tag = tagByLocalId(t).value}
 					{#if tag !== undefined}
 						<Tag
-							mode="display"
 							size="small"
 							noMargin
 							limitSize
@@ -82,7 +82,9 @@
 	oncancel={tagDialogOnCancel}
 	title={`Editing tags of: ${editTagState.track?.title}`}
 >
-<p>editing stuff</p>
+	{#if editTagState.track !== null}
+		<TrackTagEditor track={editTagState.track} />
+	{/if}
 </Dialog>
 
 <style>

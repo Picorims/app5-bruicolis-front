@@ -34,7 +34,6 @@
 			<h2>Local tags</h2>
 			{#each localTags.value as tag}
 				<Tag
-					mode="display"
                     size="medium"
 					{tag}
 					onclick={() => {

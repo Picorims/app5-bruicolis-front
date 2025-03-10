@@ -12,7 +12,6 @@
 
 	interface Props {
 		tag: TagType;
-		mode: 'display' | 'edit';
 		noMargin?: boolean;
 		limitSize?: boolean;
 		size: 'small' | 'medium';
@@ -21,7 +20,7 @@
 		editMode?: boolean;
 	}
 
-	let { tag, mode, noMargin, limitSize, size, onclick, onCrossClick, editMode = false }: Props = $props();
+	let { tag, noMargin, limitSize, size, onclick, onCrossClick, editMode = false }: Props = $props();
 	const MAX_LENGTH = 20;
 	let text = $derived(() => {
 		let t = tag.name;
