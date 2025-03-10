@@ -26,5 +26,6 @@
         font-size: 2rem;
         font-weight: 700;
         padding: 0.25em 0.5em;
+        font-family: 'Aleo', Georgia, 'Times New Roman', Times, serif;
     }
 </style>
