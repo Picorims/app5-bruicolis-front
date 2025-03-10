@@ -44,7 +44,7 @@
 <style>
 	.tag {
 		font-size: 1rem;
-        font-weight: 900;
+        font-weight: 700;
         text-shadow: 0 0 2px black;
 		display: inline-block;
 		padding: 0.25em 0.5em;
@@ -61,7 +61,7 @@
         margin-bottom: 0;
     }
     .tag.small {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
         /* padding: 0.1em 0.25em; */
     }
 </style>

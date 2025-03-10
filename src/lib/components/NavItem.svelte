@@ -51,6 +51,6 @@
 	.title {
 		font-size: 1.2rem;
 		margin-left: 0.25em;
-		font-weight: 900;
+		font-weight: 700;
 	}
 </style>
