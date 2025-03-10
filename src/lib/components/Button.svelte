@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
+
 	/*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
     
@@ -9,16 +11,19 @@
 
 	interface Props {
 		variant: 'primary' | 'secondary';
-		label: string;
+        iconMode?: boolean;
+		label?: string;
         onclick?: () => void;
+        children?: Snippet;
 	}
 
-	let { variant, label, onclick }: Props = $props();
+	let { variant, label, onclick, children, iconMode = false }: Props = $props();
 	let primary = $derived(variant === 'primary');
 	let secondary = $derived(variant === 'secondary');
+    let icon = $derived(iconMode);
 </script>
 
-<button class:primary class:secondary {onclick}>{label}</button>
+<button class:icon class:primary class:secondary {onclick}>{label ?? ""}{@render children?.()}</button>
 
 <style>
     button {
@@ -45,5 +50,14 @@
     }
     button.secondary {
         background-color: var(--secondary);
+    }
+    button.icon {
+        padding: 0.15rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    button.icon > :global(*) {
+        flex: 0 0 auto;
     }
 </style>

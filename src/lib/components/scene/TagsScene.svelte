@@ -22,12 +22,14 @@
 	}
 	let selectedTag = $state<TagType['localId'] | null>(null);
     let browseContentTitle = $state<string | null>(null);
+	let editMode = $state(false);
 	$inspect(selectedTag);
 </script>
 
 <div class="container">
 	<aside>
 		<Button variant="primary" label="Create a tag" onclick={() => navTo('createTag')} />
+			<Button variant="secondary" label={editMode? "Finish editing tags" : "Edit tags"} onclick={() => {editMode = !editMode}} />
 		<div class="list">
 			<h2>Local tags</h2>
 			{#each localTags.value as tag}
@@ -53,7 +55,7 @@
                 {@const tracks = tracksByTag(selectedTag).value}
                 <p>{tracks.length} tracks</p>
                 <div class="track-list-container">
-                    <TrackList tracks={tracks} />
+                    <TrackList {editMode} tracks={tracks} />
                 </div>
             {/if}
 		{:else if view === 'none'}
@@ -78,13 +80,13 @@
 		flex: 0 0 auto;
         display: flex;
         flex-direction: column;
+		gap: 1rem;
 	}
 
 	.list {
 		background-color: var(--secondary-800);
 		border-radius: 4px;
 		padding: 1rem;
-		margin-top: 1rem;
         flex: 1 1 auto;
         overflow-y: auto;
 	}

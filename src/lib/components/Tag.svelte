@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Tag as TagType } from '$lib/user_data.svelte';
+	import { X } from 'lucide-svelte';
 
 	/*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
@@ -16,9 +17,10 @@
 		limitSize?: boolean;
 		size: 'small' | 'medium';
 		onclick?: () => void;
+		editMode?: boolean;
 	}
 
-	let { tag, mode, noMargin, limitSize, size, onclick }: Props = $props();
+	let { tag, mode, noMargin, limitSize, size, onclick, editMode = false }: Props = $props();
 	const MAX_LENGTH = 16;
 	let text = $derived(() => {
 		let t = tag.name;
@@ -44,6 +46,9 @@
 	<span class="text">
 		{text()}
 	</span>
+	{#if editMode}
+		<button class="cross-btn"><X/></button>
+	{/if}
 </div>
 
 <style>
@@ -51,12 +56,16 @@
 		font-size: 1rem;
 		font-weight: 700;
 		text-shadow: 0 0 2px black;
-		display: inline-block;
 		padding: 0.25em 0.5em;
 		margin-right: 0.65em;
 		margin-bottom: 0.65em;
 		border-radius: 4px;
 		border-bottom: 2px solid;
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
 	}
 
 	.tag.noMargin {
@@ -69,4 +78,27 @@
     .text {
         opacity: 0.8;
     }
+	.cross-btn {
+		width: 1em;
+		height: 1em;
+		border: none;
+		background-color: transparent;
+		color: white;
+		opacity: 0.8;
+		cursor: pointer;
+		position: relative;
+	}
+	.cross-btn > :global(svg) {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.cross-btn:hover {
+		opacity: 1;
+		background-color: var(--background-50);
+		color: black;
+		border-radius: 2px;
+	}
 </style>

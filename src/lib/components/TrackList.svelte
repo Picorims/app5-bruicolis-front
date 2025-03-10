@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { tagByLocalId, type Track } from '$lib/user_data.svelte';
+	import { Plus } from 'lucide-svelte';
+	import Button from './Button.svelte';
 	import Tag from './Tag.svelte';
 
 	/*
@@ -12,9 +14,10 @@
 
 	interface Props {
 		tracks: Track[];
+		editMode: boolean;
 	}
 
-	let { tracks }: Props = $props();
+	let { tracks, editMode }: Props = $props();
 </script>
 
 <div role="list" class="list">
@@ -28,9 +31,12 @@
 				{#each track.tags as t}
 					{@const tag = tagByLocalId(t).value}
 					{#if tag !== undefined}
-						<Tag mode="display" size="small" noMargin limitSize {tag} />
+						<Tag mode="display" size="small" noMargin limitSize {editMode} {tag} />
 					{/if}
 				{/each}
+				{#if editMode}
+					<Button variant="secondary" iconMode><Plus/></Button>
+				{/if}
 			</div>
 		</div>
 	{/each}
