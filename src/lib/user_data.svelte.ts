@@ -70,3 +70,7 @@ export function addLocalTag(name: string, color: string) {
         color,
     });
 }
+
+export function removeTagFromTrack(tag: LocalTag, track: Track) {
+    track.tags = track.tags.filter(trackTag => trackTag !== tag.localId);
+}

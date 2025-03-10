@@ -17,10 +17,11 @@
 		limitSize?: boolean;
 		size: 'small' | 'medium';
 		onclick?: () => void;
+		onCrossClick?: () => void;
 		editMode?: boolean;
 	}
 
-	let { tag, mode, noMargin, limitSize, size, onclick, editMode = false }: Props = $props();
+	let { tag, mode, noMargin, limitSize, size, onclick, onCrossClick, editMode = false }: Props = $props();
 	const MAX_LENGTH = 16;
 	let text = $derived(() => {
 		let t = tag.name;
@@ -47,7 +48,7 @@
 		{text()}
 	</span>
 	{#if editMode}
-		<button class="cross-btn"><X/></button>
+		<button class="cross-btn" onclick={onCrossClick}><X/></button>
 	{/if}
 </div>
 

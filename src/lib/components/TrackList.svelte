@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tagByLocalId, type Track } from '$lib/user_data.svelte';
+	import { removeTagFromTrack, tagByLocalId, type LocalTag, type Track } from '$lib/user_data.svelte';
 	import { Plus } from 'lucide-svelte';
 	import Button from './Button.svelte';
 	import Tag from './Tag.svelte';
@@ -31,7 +31,7 @@
 				{#each track.tags as t}
 					{@const tag = tagByLocalId(t).value}
 					{#if tag !== undefined}
-						<Tag mode="display" size="small" noMargin limitSize {editMode} {tag} />
+						<Tag mode="display" size="small" noMargin limitSize {editMode} {tag} onCrossClick={() => removeTagFromTrack(tag, track)} />
 					{/if}
 				{/each}
 				{#if editMode}
