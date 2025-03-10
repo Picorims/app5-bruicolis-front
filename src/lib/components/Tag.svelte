@@ -22,7 +22,7 @@
 	}
 
 	let { tag, mode, noMargin, limitSize, size, onclick, onCrossClick, editMode = false }: Props = $props();
-	const MAX_LENGTH = 16;
+	const MAX_LENGTH = 20;
 	let text = $derived(() => {
 		let t = tag.name;
 		if (limitSize && t.length > MAX_LENGTH) {
@@ -74,7 +74,7 @@
 		margin-bottom: 0;
 	}
 	.tag.small {
-		font-size: 0.7rem;
+		font-size: 0.8rem;
 	}
     .text {
         opacity: 0.8;
