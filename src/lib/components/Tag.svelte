@@ -12,56 +12,61 @@
 	interface Props {
 		tag: TagType;
 		mode: 'display' | 'edit';
-        noMargin?: boolean;
-        limitSize?: boolean;
-        size: 'small' | 'medium';
+		noMargin?: boolean;
+		limitSize?: boolean;
+		size: 'small' | 'medium';
 		onclick?: () => void;
 	}
 
 	let { tag, mode, noMargin, limitSize, size, onclick }: Props = $props();
-    const MAX_LENGTH = 10;
-    let text = $derived(() => {
-        let t = tag.name;
-        if (limitSize && text.length > MAX_LENGTH) {
-            t = t.slice(0, MAX_LENGTH) + '...';
-        }
-        return t;
-    });
+	const MAX_LENGTH = 16;
+	let text = $derived(() => {
+		let t = tag.name;
+		if (limitSize && t.length > MAX_LENGTH) {
+			t = t.slice(0, MAX_LENGTH) + '...';
+		}
+		return t;
+	});
 </script>
 
 <div
 	class="tag"
-    class:small={size === 'small'}
-    class:medium={size === 'medium'}
-    class:noMargin={noMargin}
-	style="border-color: {tag.color}; cursor: {onclick === undefined ? 'default' : 'pointer'}"
+	class:small={size === 'small'}
+	class:medium={size === 'medium'}
+	class:noMargin
+	style="background-color: color-mix(in srgb, {tag.color}, black 70%); border-color: {tag.color}; cursor: {onclick ===
+	undefined
+		? 'default'
+		: 'pointer'}"
 	role={onclick === undefined ? 'none' : 'button'}
 	{onclick}
 >
-	{text()}
+	<span class="text">
+		{text()}
+	</span>
 </div>
 
 <style>
 	.tag {
 		font-size: 1rem;
-        font-weight: 700;
-        text-shadow: 0 0 2px black;
+		font-weight: 700;
+		text-shadow: 0 0 2px black;
 		display: inline-block;
 		padding: 0.25em 0.5em;
-		margin-right: 0.75em;
-		margin-bottom: 0.75em;
+		margin-right: 0.65em;
+		margin-bottom: 0.65em;
 		border-radius: 4px;
 		border-bottom: 2px solid;
-        background-color: var(--secondary-900);
-        color: var(--secondary-400);
 	}
 
-    .tag.noMargin {
-        margin-right: 0;
-        margin-bottom: 0;
-    }
-    .tag.small {
-        font-size: 0.75rem;
-        /* padding: 0.1em 0.25em; */
+	.tag.noMargin {
+		margin-right: 0;
+		margin-bottom: 0;
+	}
+	.tag.small {
+		font-size: 0.7rem;
+	}
+    .text {
+        opacity: 0.8;
     }
 </style>

@@ -54,7 +54,7 @@
 
 		display: flex;
 		flex-wrap: wrap;
-		align-items: baseline;
+		align-items: center;
 		justify-content: space-between;
 		gap: 0 1em;
 
@@ -92,10 +92,10 @@
 	}
 
 	.tags {
-        max-width: 420px;
+        /* max-width: 520px; */
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-end;
-        gap: 0.75em;
+        gap: 0.35em;
 	}
 </style>
