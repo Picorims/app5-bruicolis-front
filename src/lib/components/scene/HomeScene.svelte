@@ -9,7 +9,7 @@
     */
 
 	import Button from '../Button.svelte';
-	import { importUserData, type UserData } from '$lib/user_data.svelte';
+	import { exportUserData, importUserData, type UserData } from '$lib/user_data.svelte';
 
 	function importData() {
 		console.log('Importing data');
@@ -31,11 +31,21 @@
         };
         reader.readAsText(file);
     }
+
+    function exportDataToJsonFile() {
+        const data = exportUserData();
+        const dataURI = `data:text/json;charset=utf-8,${encodeURIComponent(data)}`;
+        const aElement = document.createElement("a");
+        aElement.setAttribute("href", dataURI);
+        aElement.setAttribute("download", "userData.json");
+        aElement.click();
+    }
 </script>
 
 <h1>Home</h1>
 
 <Button variant="primary" label="Import data" onclick={importData} />
+<Button variant="secondary" label="Export data" onclick={exportDataToJsonFile} />
 
 <input id="file-input" type="file" accept=".json" onchange={(e) => {
     const input = e.target as HTMLInputElement;

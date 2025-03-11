@@ -41,6 +41,11 @@ export function importUserData(data: string) {
     console.log("Imported user data");
 }
 
+export function exportUserData(): string {
+    return typia.json.assertStringify(userData);
+
+}
+
 /**
  * @see https://github.com/sveltejs/svelte/discussions/15019
  * @param fn 
