@@ -60,7 +60,7 @@
 		border-radius: 8px;
 		padding: 1rem;
 		margin-bottom: 1rem;
-        max-height: 250px;
+        max-height: 150px;
         overflow-y: scroll;
 	}
 	legend {

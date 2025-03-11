@@ -22,9 +22,18 @@
 	}
 
 	let { open, title, children, onconfirm, oncancel }: Props = $props();
+    let dialog: HTMLDialogElement;
+    $effect(() => {
+        if (open) {
+            // showModal() add the backdrop pseudo element, not show().
+            dialog.showModal();
+        } else {
+            dialog.close();
+        }
+    })
 </script>
 
-<dialog {open}>
+<dialog class="dialog" bind:this={dialog}>
 	<h2>{title}</h2>
 	{@render children()}
     <div class="buttons">
@@ -34,7 +43,7 @@
 </dialog>
 
 <style>
-    dialog {
+    .dialog {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -45,6 +54,13 @@
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 4px 8px var(--background);
+    }
+
+    .dialog::backdrop {
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--background);
+        opacity: 0.5;
     }
 
     .buttons {
