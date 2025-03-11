@@ -28,20 +28,33 @@
 	interface TagState {
 		active: boolean;
 		track: Track | null;
+		tagsToCommit: string[] | null;
 	}
 	let editTagState = $state<TagState>({
 		active: false,
-		track: null
+		track: null,
+		tagsToCommit: null,
 	});
 
 	function tagDialogOnConfirm() {
-		editTagState.active = false;
+		if (editTagState.track && editTagState.tagsToCommit) {
+			editTagState.track.tags = editTagState.tagsToCommit;
+		} else {
+			console.warn("Did not expect null track or tag list after tag edition.");
+		}
+		disableTagEdition();
 	}
 	function tagDialogOnCancel() {
+		disableTagEdition();
+	}
+	function disableTagEdition() {
 		editTagState.active = false;
+		editTagState.tagsToCommit = null;
+		editTagState.track = null;
 	}
 	function editTrackTags(track: Track) {
 		editTagState.track = track;
+		editTagState.tagsToCommit = track.tags;
 		editTagState.active = true;
 	}
 </script>
@@ -63,7 +76,7 @@
 							limitSize
 							canEditRemove={editMode}
 							{tag}
-							onAddClick={() => removeTagFromTrack(tag, track)}
+							onRemoveClick={() => removeTagFromTrack(tag, track)}
 						/>
 					{/if}
 				{/each}
@@ -83,7 +96,7 @@
 	title={`Editing tags of: ${editTagState.track?.title}`}
 >
 	{#if editTagState.track !== null}
-		<TrackTagEditor track={editTagState.track} />
+		<TrackTagEditor track={editTagState.track} onTagListChanged={(tags) => editTagState.tagsToCommit = tags} />
 	{/if}
 </Dialog>
 

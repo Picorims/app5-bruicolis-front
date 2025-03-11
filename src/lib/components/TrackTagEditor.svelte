@@ -12,9 +12,10 @@
 
 	interface Props {
 		track: Track;
+		onTagListChanged?: (tags: string[]) => void;
 	}
 
-	let { track }: Props = $props();
+	let { track, onTagListChanged }: Props = $props();
 	interface EditionState {
 		present: string[];
 		notPresent: string[];
@@ -39,6 +40,8 @@
 		removeFromArrayIfExists(editionState.notPresent, tag);
 		removeFromArrayIfExists(editionState.notCategorized, tag);
 		addFromArrayIfNotExists(editionState.present, tag);
+
+		onTagListChanged?.([...editionState.present]);
 	}
 
 	function removeTag(tag: string) {
@@ -48,6 +51,8 @@
 		removeFromArrayIfExists(editionState.present, tag);
 		removeFromArrayIfExists(editionState.notCategorized, tag);
 		addFromArrayIfNotExists(editionState.notPresent, tag);
+	
+		onTagListChanged?.([...editionState.present]);
 	}
 
 	function removeFromArrayIfExists<T>(array: T[], v: T) {
@@ -60,6 +65,9 @@
 		if (!array.includes(v)) {
 			array.push(v);
 		}
+	}
+	function commit() {
+		track.tags = editionState.present;
 	}
 </script>
 
