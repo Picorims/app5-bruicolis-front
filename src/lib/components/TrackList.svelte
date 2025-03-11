@@ -61,9 +61,9 @@
 							size="small"
 							noMargin
 							limitSize
-							{editMode}
+							canEditRemove={editMode}
 							{tag}
-							onCrossClick={() => removeTagFromTrack(tag, track)}
+							onAddClick={() => removeTagFromTrack(tag, track)}
 						/>
 					{/if}
 				{/each}

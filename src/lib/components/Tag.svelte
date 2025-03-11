@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Tag as TagType } from '$lib/user_data.svelte';
-	import { X } from 'lucide-svelte';
+	import { Plus, X } from 'lucide-svelte';
 
 	/*
     Copyright (c) 2025 Charly Schmidt alias Picorims<picorims.contact@gmail.com>
@@ -16,11 +16,13 @@
 		limitSize?: boolean;
 		size: 'small' | 'medium';
 		onclick?: () => void;
-		onCrossClick?: () => void;
-		editMode?: boolean;
+		onAddClick?: () => void;
+		onRemoveClick?: () => void;
+		canEditRemove?: boolean;
+		canEditAdd?: boolean;
 	}
 
-	let { tag, noMargin, limitSize, size, onclick, onCrossClick, editMode = false }: Props = $props();
+	let { tag, noMargin, limitSize, size, onclick, onAddClick, onRemoveClick, canEditRemove = false, canEditAdd = false }: Props = $props();
 	const MAX_LENGTH = 20;
 	let text = $derived(() => {
 		let t = tag.name;
@@ -46,8 +48,11 @@
 	<span class="text">
 		{text()}
 	</span>
-	{#if editMode}
-		<button class="cross-btn" onclick={onCrossClick}><X/></button>
+	{#if canEditRemove}
+		<button class="action-btn" onclick={onRemoveClick}><X/></button>
+	{/if}
+	{#if canEditAdd}
+		<button class="action-btn" onclick={onAddClick}><Plus/></button>
 	{/if}
 </div>
 
@@ -78,7 +83,7 @@
     .text {
         opacity: 0.8;
     }
-	.cross-btn {
+	.action-btn {
 		width: 1em;
 		height: 1em;
 		border: none;
@@ -88,14 +93,14 @@
 		cursor: pointer;
 		position: relative;
 	}
-	.cross-btn > :global(svg) {
+	.action-btn > :global(svg) {
 		width: 100%;
 		height: 100%;
 		position: absolute;
 		top: 0;
 		left: 0;
 	}
-	.cross-btn:hover {
+	.action-btn:hover {
 		opacity: 1;
 		background-color: var(--background-50);
 		color: black;

@@ -31,28 +31,65 @@
 		editionState.notPresent = tagsOperation.not(track.tags);
 		editionState.notCategorized = [];
 	});
+
+	function addTag(tag: string) {
+		if (editionState.present.includes(tag)) {
+			return;
+		}
+		removeFromArrayIfExists(editionState.notPresent, tag);
+		removeFromArrayIfExists(editionState.notCategorized, tag);
+		addFromArrayIfNotExists(editionState.present, tag);
+	}
+
+	function removeTag(tag: string) {
+		if (editionState.notPresent.includes(tag)) {
+			return;
+		}
+		removeFromArrayIfExists(editionState.present, tag);
+		removeFromArrayIfExists(editionState.notCategorized, tag);
+		addFromArrayIfNotExists(editionState.notPresent, tag);
+	}
+
+	function removeFromArrayIfExists<T>(array: T[], v: T) {
+		const index = array.indexOf(v);
+		if (index !== -1) {
+			array.splice(index, 1);
+		}
+	}
+	function addFromArrayIfNotExists<T>(array: T[], v: T) {
+		if (!array.includes(v)) {
+			array.push(v);
+		}
+	}
 </script>
 
-{#snippet tagList(tags: string[])}
+{#snippet tagList(tags: string[], canEditAdd: boolean, canEditRemove: boolean)}
 	{#each tags as t}
 		{@const tagObj = tagByLocalId(t).value}
 		{#if tagObj !== undefined}
-			<Tag editMode tag={tagObj} size="medium" />
+			<Tag
+				{canEditAdd}
+				{canEditRemove}
+				tag={tagObj}
+				size="medium"
+				onAddClick={() => addTag(t)}
+				onRemoveClick={() => removeTag(t)}
+			/>
 		{/if}
 	{/each}
 {/snippet}
 
 <fieldset>
 	<legend>Present:</legend>
-    {@render tagList(editionState.present)}
+	{@render tagList(editionState.present, false, true)}
 </fieldset>
 <fieldset>
 	<legend>Not present:</legend>
-    {@render tagList(editionState.notPresent)}
+	{@render tagList(editionState.notPresent, true, false)}
 </fieldset>
 <fieldset>
 	<legend>Not categorized:</legend>
-    {@render tagList(editionState.notCategorized)}
+	{@render tagList(editionState.notCategorized, true, true)}
 </fieldset>
 
 <style>
@@ -60,8 +97,8 @@
 		border-radius: 8px;
 		padding: 1rem;
 		margin-bottom: 1rem;
-        max-height: 150px;
-        overflow-y: scroll;
+		max-height: 150px;
+		overflow-y: scroll;
 	}
 	legend {
 		padding: 0.25em;
