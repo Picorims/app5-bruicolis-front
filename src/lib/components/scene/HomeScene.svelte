@@ -10,6 +10,7 @@
 
 	import Button from '../Button.svelte';
 	import { importUserData, type UserData } from '$lib/user_data.svelte';
+    import * as APIManager from '../../../API/APIManager';
 
 	function importData() {
 		console.log('Importing data');
@@ -22,6 +23,13 @@
 		const event = new MouseEvent('click');
 		input.dispatchEvent(event);
 	}
+
+    function debugRequest() {
+        console.log('debug request');
+
+        const songs = APIManager.fetchSongs();
+        songs.then(songs => console.log(songs));
+    }
 
 	function loadData(file: File) {
         const reader = new FileReader();
@@ -36,6 +44,7 @@
 <h1>Home</h1>
 
 <Button variant="primary" label="Import data" onclick={importData} />
+<Button variant="primary" label="debug" onclick={debugRequest} />
 
 <input id="file-input" type="file" accept=".json" onchange={(e) => {
     const input = e.target as HTMLInputElement;
