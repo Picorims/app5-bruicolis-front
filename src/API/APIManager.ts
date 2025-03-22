@@ -156,8 +156,146 @@ export async function fetchArtists() {
     }
 }
 
+/**
+ * Fetches artist from the API from its ID.
+ * @param artistId The ID of the artist to fetch.
+ * @returns A promise resolving to the artist, or null if the artist wasn't found.
+ */
+export async function fetchArtist(artistId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists/${artistId}`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch artist: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return new Artist(responseBody.id, responseBody.name);
+        
+    } catch (error) {
+        console.error('Error fetching artist:', error);
+        throw error;
+    }
+}
 
+/**
+ * Fetches artist from the API from its ID.
+ * @param artistId The ID of the artist to fetch.
+ * @returns A promise resolving to the artist, or null if the artist wasn't found.
+ * */
+export async function addArtist(name: string) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add artist: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return new Artist(responseBody.id, responseBody.name);
+    } catch (error) {
+        console.error('Error adding artist:', error);
+        throw error;
+    }
+}
 
+/**
+ * Fetches artist songs from the API from its ID.
+ * @param artistId The ID of the artist to fetch.
+ * @returns A promise resolving to the list of songs.
+ * */
+export async function fetchArtistSongs(artistId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists/${artistId}/songs`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch artist songs: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        
+    } catch (error) {
+        console.error('Error fetching artist songs:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetches artist albums from the API from its ID.
+ * @param artistId The ID of the artist to fetch.
+ * @returns A promise resolving to the list of albums.
+ * */
+export async function fetchArtistAlbums(artistId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists/${artistId}/albums`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch artist albums: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((album: any) => new Album(album.id, album.name, new Date(album.release_date)));
+        
+    } catch (error) {
+        console.error('Error fetching artist albums:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetches artist tags from the API from its ID.
+ * @param artistId The ID of the artist to fetch.
+ * @returns A promise resolving to the list of tags.
+ * */
+export async function fetchArtistTags(artistId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists/${artistId}/tags`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch tags: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+
+    } catch (error) {
+        console.error('Error fetching artist:', error);
+        throw error;
+    }
+}
+
+/**
+ * Adds a new tag to an artist in the API.
+ * @param artistId The ID of the artist to add the tag to.
+ * @param tagId The ID of the tag to add.
+ * @returns A promise resolving to the updated artist.
+ * */
+export async function addTagToArtist(artistId: number, tagId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/artists/${artistId}/tags`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                tag_id: tagId
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add tag: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody;
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        throw error;
+    }
+}
 
 //---------------------------------------------------------------------------------------------//
 //------------------------------------------ Albums -------------------------------------------//

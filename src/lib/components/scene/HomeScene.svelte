@@ -29,7 +29,7 @@
         console.log('debug request');
 
         const newSong = new Song(0, 'Test addSong', new Date());
-        const resp = APIManager.fetchSongTags(3);
+        const resp = APIManager.addTagToArtist(1, 3);
         resp.then(obj => console.log(obj));
     }
 
