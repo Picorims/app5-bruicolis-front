@@ -496,7 +496,7 @@ export async function fetchTags() {
  * Fetches tag from the API from its ID.
  * @returns A promise resolving to the tag, or null if the tag wasn't found.
  */
- export async function fetchTag(tagId: number) {
+export async function fetchTag(tagId: number) {
     try {
         const response = await fetch(`${API_BASE_URL}/tags/${tagId}`);
         if (!response.ok) {
@@ -508,6 +508,54 @@ export async function fetchTags() {
 
     } catch (error) {
         console.error('Error fetching tag:', error);
+        throw error;
+    }
+}
+
+/**
+ * Adds a new tag to the API.
+ * @param label The label of the tag to add.
+ * @returns A promise resolving to the newly created tag.
+ * */
+export async function addTag(label: string) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tags`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                label: label,
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add tag: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return new Tag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        throw error;
+    }
+}
+
+/**
+ * Gets all the songs that are associated with a given tag.
+ * @param tagId The ID of the tag to get the songs of.
+ * @returns A promise resolving to the list of songs.
+ * */
+export async function getTagSongs(tagId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tags/${tagId}/songs`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch tag songs: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        
+    } catch (error) {
+        console.error('Error fetching tag songs:', error);
         throw error;
     }
 }
