@@ -320,9 +320,155 @@ export async function fetchAlbums() {
     }
 }
 
+/**
+ * Fetches album from the API from its ID.
+ * @param albumId The ID of the album to fetch.
+ * @returns A promise resolving to the album, or null if the album wasn't found.
+ * */
+export async function fetchAlbum(albumId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums/${albumId}`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch album: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return new Album(responseBody.id, responseBody.name, new Date(responseBody.release_date));
 
+    } catch (error) {
+        console.error('Error fetching album:', error);
+        throw error;
+    }
+}
 
+/**
+ * Adds a new album to the API.
+ * @param album The album to add.
+ * @returns A promise resolving to the newly created album.
+ * */
+export async function addAlbum(name: string, releaseDate: Date, artistId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                release_date: releaseDate.toISOString(),
+                artist_id: artistId,
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add album: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return new Album(responseBody.id, responseBody.name, new Date(responseBody.release_date));
+    } catch (error) {
+        console.error('Error adding album:', error);
+        throw error;
+    }
+}
 
+/**
+ * Fetches album songs from the API from its ID.
+ * @param albumId The ID of the album to fetch.
+ * @returns A promise resolving to the list of songs.
+ * */
+export async function fetchAlbumSongs(albumId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums/${albumId}/songs`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch album songs: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        
+    } catch (error) {
+        console.error('Error fetching album songs:', error);
+        throw error;
+    }
+}
+
+/**
+ * Adds a new song to an album in the API.
+ * @param songId The ID of the song to add.
+ * @param albumId The ID of the album to add the song to.
+ * @returns A promise resolving to the updated album.
+ * */
+export async function addSongToALbum(songId: number, albumId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums/${albumId}/songs`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                song_id: songId
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add song to album: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody;
+    } catch (error) {
+        console.error('Error adding song to album:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetches album tags from the API from its ID.
+ * @param albumId The ID of the album
+ * @returns A promise resolving to the list of tags.
+ * */
+export async function fetchAlbumTags(albumId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums/${albumId}/tags`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch tags: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+
+    } catch (error) {
+        console.error('Error fetching album:', error);
+        throw error;
+    }
+}
+
+/**
+ * Adds a new tag to an album in the API.
+ * @param albumId The ID of the album to add the tag to.
+ * @param tagId The ID of the tag to add.
+ * @returns A promise resolving to the updated album.
+ * */
+export async function addTagToALbum(albumId: number, tagId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/albums/${albumId}/tags`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                tag_id: tagId
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add tag: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody;
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        throw error;
+    }
+}
 //---------------------------------------------------------------------------------------------//
 //------------------------------------------- Tags --------------------------------------------//
 //---------------------------------------------------------------------------------------------//
@@ -358,7 +504,7 @@ export async function fetchTags() {
             throw new Error(`Failed to fetch tag: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+        return new Tag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
 
     } catch (error) {
         console.error('Error fetching tag:', error);
