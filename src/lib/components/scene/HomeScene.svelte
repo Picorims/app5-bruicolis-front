@@ -11,6 +11,7 @@
 	import Button from '../Button.svelte';
 	import { importUserData, type UserData } from '$lib/user_data.svelte';
     import * as APIManager from '../../../API/APIManager';
+	import { Song } from '../../../models/Song';
 
 	function importData() {
 		console.log('Importing data');
@@ -27,8 +28,9 @@
     function debugRequest() {
         console.log('debug request');
 
-        const songs = APIManager.fetchSongs();
-        songs.then(songs => console.log(songs));
+        const newSong = new Song(0, 'Test addSong', new Date());
+        const resp = APIManager.addSong(newSong, 1);
+        resp.then(obj => console.log(obj));
     }
 
 	function loadData(file: File) {
