@@ -3,6 +3,14 @@ const API_BASE_URL = 'http://localhost:8000';
 import { Album } from '../models/Album';
 import { Artist } from '../models/Artist';
 import { Song } from '../models/Song';
+import { Tag } from '../models/Tag';
+
+
+
+
+//---------------------------------------------------------------------------------------------//
+//------------------------------------------- Songs -------------------------------------------//
+//---------------------------------------------------------------------------------------------//
 
 /**
  * Fetches songs from the API.
@@ -55,7 +63,11 @@ export async function addSong(song: Song, artistId: number) {
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify({ song, artistId }),
+            body: JSON.stringify({
+                name: song.name,
+                release_date: song.release_date.toISOString(),
+                artist_id: artistId,
+            }),
         });
         
         if (!response.ok) {
@@ -68,6 +80,62 @@ export async function addSong(song: Song, artistId: number) {
         throw error;
     }
 }
+
+/**
+ * Adds a new tag to a song in the API.
+ * @param songId The ID of the song to get the tags of.
+ * @returns A promise resolving to the list of tags.
+**/
+export async function fetchSongTags(songId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/songs/${songId}/tags`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch tags: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.returnObject.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+
+    } catch (error) {
+        console.error('Error fetching song:', error);
+        throw error;
+    }
+}
+
+/**
+ * Adds a new tag to a song in the API.
+ * @param tagId The ID of the tag to add.
+ * @param songId The ID of the song to add the tag to.
+ * @returns A promise resolving to the updated song.
+**/
+export async function addTagToSong(tagId: number, songId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/songs${songId}/add_tag`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                tag_id: tagId
+            }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Failed to add tag: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody;
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        throw error;
+    }
+}
+
+
+
+//---------------------------------------------------------------------------------------------//
+//------------------------------------------ Artists ------------------------------------------//
+//---------------------------------------------------------------------------------------------//
 
 /**
  * Fetches artists from the API.
@@ -88,6 +156,13 @@ export async function fetchArtists() {
     }
 }
 
+
+
+
+//---------------------------------------------------------------------------------------------//
+//------------------------------------------ Albums -------------------------------------------//
+//---------------------------------------------------------------------------------------------//
+
 /**
  * Fetches albums from the API.
  * @returns A promise resolving to the list of albums.
@@ -103,6 +178,52 @@ export async function fetchAlbums() {
 
     } catch (error) {
         console.error('Error fetching albums:', error);
+        throw error;
+    }
+}
+
+
+
+
+//---------------------------------------------------------------------------------------------//
+//------------------------------------------- Tags --------------------------------------------//
+//---------------------------------------------------------------------------------------------//
+
+/**
+ * Fetches tags from the API.
+ * @returns A promise resolving to the list of tags.
+ * */
+export async function fetchTags() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tags`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch tags: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+
+    } catch (error) {
+        console.error('Error fetching tags:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetches tag from the API from its ID.
+ * @returns A promise resolving to the tag, or null if the tag wasn't found.
+ */
+ export async function fetchTag(tagId: number) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tags/${tagId}`);
+        if (!response.ok) {
+            if (response.status === 404) return null;
+            throw new Error(`Failed to fetch tag: ${response.statusText}`);
+        }
+        const responseBody = await response.json();
+        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+
+    } catch (error) {
+        console.error('Error fetching tag:', error);
         throw error;
     }
 }
