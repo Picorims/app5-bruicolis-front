@@ -1,4 +1,4 @@
-export class Song {
+export class APIAlbum {
     id: number;
     name: string;
     release_date: Date;

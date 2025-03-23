@@ -1,9 +1,9 @@
 const API_BASE_URL = 'http://localhost:8000';
 
-import { Album } from '../models/Album';
-import { Artist } from '../models/Artist';
-import { Song } from '../models/Song';
-import { Tag } from '../models/Tag';
+import { APIAlbum } from '../api_models/APIAlbum';
+import { APIArtist } from '../api_models/APIArtist';
+import { APISong } from '../api_models/APISong';
+import { APITag } from '../api_models/APITag';
 
 
 
@@ -23,7 +23,7 @@ export async function fetchSongs() {
             throw new Error(`Failed to fetch songs: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        return responseBody.map((song: any) => new APISong(song.id, song.name, new Date(song.release_date)));
 
     } catch (error) {
         console.error('Error fetching songs:', error);
@@ -43,7 +43,7 @@ export async function fetchSong(songId: number) {
             throw new Error(`Failed to fetch song: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Song(responseBody.id, responseBody.name, new Date(responseBody.release_date));
+        return new APISong(responseBody.id, responseBody.name, new Date(responseBody.release_date));
 
     } catch (error) {
         console.error('Error fetching song:', error);
@@ -56,7 +56,7 @@ export async function fetchSong(songId: number) {
  * @param song The song to add.
  * @returns A promise resolving to the newly created song.
  * */
-export async function addSong(song: Song, artistId: number) {
+export async function addSong(song: APISong, artistId: number) {
     try {
         const response = await fetch(`${API_BASE_URL}/songs`, {
             method: 'POST',
@@ -74,7 +74,7 @@ export async function addSong(song: Song, artistId: number) {
             throw new Error(`Failed to add song: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Song(responseBody.id, responseBody.name, new Date(responseBody.release_date));
+        return new APISong(responseBody.id, responseBody.name, new Date(responseBody.release_date));
     } catch (error) {
         console.error('Error adding song:', error);
         throw error;
@@ -94,7 +94,7 @@ export async function fetchSongTags(songId: number) {
             throw new Error(`Failed to fetch tags: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.returnObject.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+        return responseBody.returnObject.map((tag: any) => new APITag(tag.id, tag.label, tag.musicbrainzId));
 
     } catch (error) {
         console.error('Error fetching song:', error);
@@ -148,7 +148,7 @@ export async function fetchArtists() {
             throw new Error(`Failed to fetch artists: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((artist: any) => new Artist(artist.id, artist.name));
+        return responseBody.map((artist: any) => new APIArtist(artist.id, artist.name));
         
     } catch (error) {
         console.error('Error fetching artists:', error);
@@ -169,7 +169,7 @@ export async function fetchArtist(artistId: number) {
             throw new Error(`Failed to fetch artist: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Artist(responseBody.id, responseBody.name);
+        return new APIArtist(responseBody.id, responseBody.name);
         
     } catch (error) {
         console.error('Error fetching artist:', error);
@@ -198,7 +198,7 @@ export async function addArtist(name: string) {
             throw new Error(`Failed to add artist: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Artist(responseBody.id, responseBody.name);
+        return new APIArtist(responseBody.id, responseBody.name);
     } catch (error) {
         console.error('Error adding artist:', error);
         throw error;
@@ -218,7 +218,7 @@ export async function fetchArtistSongs(artistId: number) {
             throw new Error(`Failed to fetch artist songs: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        return responseBody.map((song: any) => new APISong(song.id, song.name, new Date(song.release_date)));
         
     } catch (error) {
         console.error('Error fetching artist songs:', error);
@@ -239,7 +239,7 @@ export async function fetchArtistAlbums(artistId: number) {
             throw new Error(`Failed to fetch artist albums: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((album: any) => new Album(album.id, album.name, new Date(album.release_date)));
+        return responseBody.map((album: any) => new APIAlbum(album.id, album.name, new Date(album.release_date)));
         
     } catch (error) {
         console.error('Error fetching artist albums:', error);
@@ -260,7 +260,7 @@ export async function fetchArtistTags(artistId: number) {
             throw new Error(`Failed to fetch tags: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+        return responseBody.map((tag: any) => new APITag(tag.id, tag.label, tag.musicbrainzId));
 
     } catch (error) {
         console.error('Error fetching artist:', error);
@@ -312,7 +312,7 @@ export async function fetchAlbums() {
             throw new Error(`Failed to fetch albums: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((album: any) => new Album(album.id, album.name, new Date(album.release_date)));
+        return responseBody.map((album: any) => new APIAlbum(album.id, album.name, new Date(album.release_date)));
 
     } catch (error) {
         console.error('Error fetching albums:', error);
@@ -333,7 +333,7 @@ export async function fetchAlbum(albumId: number) {
             throw new Error(`Failed to fetch album: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Album(responseBody.id, responseBody.name, new Date(responseBody.release_date));
+        return new APIAlbum(responseBody.id, responseBody.name, new Date(responseBody.release_date));
 
     } catch (error) {
         console.error('Error fetching album:', error);
@@ -364,7 +364,7 @@ export async function addAlbum(name: string, releaseDate: Date, artistId: number
             throw new Error(`Failed to add album: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Album(responseBody.id, responseBody.name, new Date(responseBody.release_date));
+        return new APIAlbum(responseBody.id, responseBody.name, new Date(responseBody.release_date));
     } catch (error) {
         console.error('Error adding album:', error);
         throw error;
@@ -383,7 +383,7 @@ export async function fetchAlbumSongs(albumId: number) {
             throw new Error(`Failed to fetch album songs: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        return responseBody.map((song: any) => new APISong(song.id, song.name, new Date(song.release_date)));
         
     } catch (error) {
         console.error('Error fetching album songs:', error);
@@ -433,7 +433,7 @@ export async function fetchAlbumTags(albumId: number) {
             throw new Error(`Failed to fetch tags: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+        return responseBody.map((tag: any) => new APITag(tag.id, tag.label, tag.musicbrainzId));
 
     } catch (error) {
         console.error('Error fetching album:', error);
@@ -484,7 +484,7 @@ export async function fetchTags() {
             throw new Error(`Failed to fetch tags: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((tag: any) => new Tag(tag.id, tag.label, tag.musicbrainzId));
+        return responseBody.map((tag: any) => new APITag(tag.id, tag.label, tag.musicbrainzId));
 
     } catch (error) {
         console.error('Error fetching tags:', error);
@@ -504,7 +504,7 @@ export async function fetchTag(tagId: number) {
             throw new Error(`Failed to fetch tag: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Tag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
+        return new APITag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
 
     } catch (error) {
         console.error('Error fetching tag:', error);
@@ -533,7 +533,7 @@ export async function addTag(label: string) {
             throw new Error(`Failed to add tag: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return new Tag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
+        return new APITag(responseBody.id, responseBody.label, responseBody.musicbrainzId);
     } catch (error) {
         console.error('Error adding tag:', error);
         throw error;
@@ -552,7 +552,7 @@ export async function getTagSongs(tagId: number) {
             throw new Error(`Failed to fetch tag songs: ${response.statusText}`);
         }
         const responseBody = await response.json();
-        return responseBody.map((song: any) => new Song(song.id, song.name, new Date(song.release_date)));
+        return responseBody.map((song: any) => new APISong(song.id, song.name, new Date(song.release_date)));
         
     } catch (error) {
         console.error('Error fetching tag songs:', error);

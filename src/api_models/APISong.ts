@@ -1,4 +1,4 @@
-export class Album {
+export class APISong {
     id: number;
     name: string;
     release_date: Date;

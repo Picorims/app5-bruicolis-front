@@ -1,4 +1,4 @@
-export class Tag {
+export class APITag {
     id: number;
     label: string;
     musicbrainzId: number;
