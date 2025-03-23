@@ -41,6 +41,11 @@ export function importUserData(data: string) {
     console.log("Imported user data");
 }
 
+export function exportUserData(): string {
+    return typia.json.assertStringify(userData);
+
+}
+
 /**
  * @see https://github.com/sveltejs/svelte/discussions/15019
  * @param fn 
@@ -69,4 +74,16 @@ export function addLocalTag(name: string, color: string) {
         name,
         color,
     });
+}
+
+export function removeTagFromTrack(tag: LocalTag, track: Track) {
+    track.tags = track.tags.filter(trackTag => trackTag !== tag.localId);
+}
+
+export const tagsOperation = {
+    not: tagsOpNot,
+}
+
+function tagsOpNot(tags: string[]): string[] {
+    return userData.tags.filter(t => tags.every(v => v !== t.localId)).map(t => t.localId);
 }
