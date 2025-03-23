@@ -9,7 +9,9 @@
     */
 
 	import Button from '../Button.svelte';
-	import { exportUserData, importUserData, type UserData } from '$lib/user_data.svelte';
+    import { exportUserData, importUserData, type UserData } from '$lib/user_data.svelte';
+    import * as APIManager from '../../../API/APIManager';
+	import { APISong } from '../../../api_models/APISong';
 
 	function importData() {
 		console.log('Importing data');
@@ -22,6 +24,14 @@
 		const event = new MouseEvent('click');
 		input.dispatchEvent(event);
 	}
+
+    function debugRequest() {
+        console.log('debug request');
+
+        const newSong = new APISong(0, 'Test addSong', new Date());
+        const resp = APIManager.getTagSongs(3);
+        resp.then(obj => console.log(obj));
+    }
 
 	function loadData(file: File) {
         const reader = new FileReader();
@@ -46,6 +56,7 @@
 
 <Button variant="primary" label="Import data" onclick={importData} />
 <Button variant="secondary" label="Export data" onclick={exportDataToJsonFile} />
+<Button variant="primary" label="debug" onclick={debugRequest} />
 
 <input id="file-input" type="file" accept=".json" onchange={(e) => {
     const input = e.target as HTMLInputElement;
