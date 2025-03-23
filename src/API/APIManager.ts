@@ -6,6 +6,15 @@ import { APISong } from '../api_models/APISong';
 import { APITag } from '../api_models/APITag';
 
 
+export interface SearchBody {
+    filters: {
+        text_query?: string;
+        tagsOR?: number[];
+        tagsAND?: number[];
+    }
+    page: number,
+    limit: number,
+}
 
 
 //---------------------------------------------------------------------------------------------//
@@ -141,14 +150,21 @@ export async function addTagToSong(tagId: number, songId: number) {
  * Fetches artists from the API.
  * @returns A promise resolving to the list of artists.
  */
-export async function fetchArtists() {
+export async function fetchArtists(body: SearchBody): Promise<APIArtist[]> {
     try {
-        const response = await fetch(`${API_BASE_URL}/artists`);
+        const response = await fetch(`${API_BASE_URL}/artists`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            credentials: "include",
+            body: JSON.stringify(body),
+        });
         if (!response.ok) {
             throw new Error(`Failed to fetch artists: ${response.statusText}`);
         }
-        const responseBody = await response.json();
-        return responseBody.map((artist: any) => new APIArtist(artist.id, artist.name)); //TODO no any
+        const responseBody: {id: number, name: string}[] = await response.json();
+        return responseBody.map((artist: {id: number, name: string}): APIArtist => new APIArtist(artist.id, artist.name));
         
     } catch (error) {
         console.error('Error fetching artists:', error);
