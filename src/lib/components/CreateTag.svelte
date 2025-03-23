@@ -44,7 +44,7 @@
 		<input type="color" bind:value={previewTag.color} />
 	</LabeledContainer>
 	<LabeledContainer label="Preview">
-		<Tag mode="display" size="medium" tag={previewTag} />
+		<Tag size="medium" tag={previewTag} />
 	</LabeledContainer>
 	<Button variant="secondary" label="Create" onclick={createTag} />
 </div>
